@@ -1,0 +1,33 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: resilienceops-app
+  labels:
+    app: flask-svc
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: flask-svc
+  template:
+    metadata:
+      labels:
+        app: flask-svc
+    spec:
+      containers:
+      - name: flask-container
+        image: resilienceops-app:latest
+        ports:
+        - containerPort: 5000
+        livenessProbe:
+          httpGet:
+            path: /health
+            port: 5000
+          initialDelaySeconds: 5
+          periodSeconds: 10
+        readinessProbe:
+          httpGet:
+            path: /health
+            port: 5000
+          initialDelaySeconds: 5
+          periodSeconds: 10

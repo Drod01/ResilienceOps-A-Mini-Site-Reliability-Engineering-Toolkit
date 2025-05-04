@@ -1,0 +1,7 @@
+global:
+  scrape_interval: 15s
+
+scrape_configs:
+  - job_name: 'resilienceops-flask'
+    static_configs:
+      - targets: ['resilienceops-service:5000']
